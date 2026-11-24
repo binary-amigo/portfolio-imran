@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Imran Khan — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: confident, direct engineer's page — clean, no fluff.
+   IDEA: the page behaves like a distributed trace in an observability tool.
+   PICTURE: a trace waterfall whose spans are the sections of the page (and act as nav).
+   COLOUR and TYPE: black/white plus one mint field; Space Grotesk 700 + Inter.
+   LAYOUT: hero split — mint field with name, white field with the trace; then bands. */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0b0b0b);--ink:light-dark(#0b0b0b,#f3f3f3);--mute:light-dark(#555,#a8a8a8);--line:light-dark(#e6e6e6,#262626);--mint:#b8f5d0;--mint-ink:light-dark(#0b0b0b,#b8f5d0);--card:light-dark(#fafafa,#141414)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;margin:0;text-wrap:balance}
+h1{font-size:clamp(40px,6vw,64px);line-height:1.02;font-weight:700}
+h2{font-size:clamp(28px,3.4vw,40px);line-height:1.05;font-weight:700;margin-bottom:24px}
+h3{font-size:20px;line-height:1.2;font-weight:700}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto}
+.band{padding:clamp(36px,5vw,72px) max(5vw,16px)}
+.band+.band{border-top:1px solid var(--line)}
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);min-height:min(88vh,720px)}
+.id{background:var(--mint);color:#0b0b0b;padding:clamp(32px,5vw,72px) max(5vw,16px);display:flex;flex-direction:column;justify-content:space-between;gap:32px}
+.id p{font-size:18px;max-width:34ch;margin:18px 0 0}
+.role{font-weight:600;font-size:17px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;font-weight:600;text-decoration:none;border:2px solid #0b0b0b}
+.btn.solid{background:#0b0b0b;color:var(--mint)}
+.btn:focus-visible,.span:focus-visible{outline:3px solid #0b0b0b;outline-offset:3px}
+.trace{padding:clamp(32px,5vw,72px) max(5vw,16px);display:flex;flex-direction:column;justify-content:center;gap:14px}
+.thead{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--mute);border-bottom:1px solid var(--line);padding-bottom:10px}
+.thead b{color:var(--ink);font-weight:600}
+.span{display:grid;grid-template-columns:minmax(0,11em) minmax(0,1fr);align-items:center;gap:14px;text-decoration:none;min-height:44px;border-radius:8px;padding:2px 6px}
+.span:hover{background:var(--card)}
+.span .n{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.span .n small{color:var(--mute);font-weight:400}
+.bar{position:relative;height:22px}
+.bar i{position:absolute;top:0;bottom:0;border-radius:4px;background:var(--ink);transform-origin:left;animation:grow .9s cubic-bezier(.2,.7,.2,1) both}
+.bar i.m{background:var(--mint);box-shadow:inset 0 0 0 1px light-dark(#7fd9a6,transparent)}
+.span .n.c{padding-left:1em}
+@keyframes grow{from{transform:scaleX(0)}}
+@media (prefers-reduced-motion:reduce){.bar i{animation:none}}
+.tfoot{font-size:13px;color:var(--mute)}
+/* content */
+.lead{font-size:18px;max-width:68ch;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.card p{margin:8px 0 0;color:var(--mute)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tags span{font-size:13px;padding:3px 10px;border-radius:999px;border:1px solid var(--line)}
+.proj{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.proj .card{display:flex;flex-direction:column;gap:6px;padding:28px}
+.proj .card h3{font-size:26px}
+.proj .card .gh{margin-top:auto;padding-top:18px}
+.gh a{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:600;text-decoration:none;overflow-wrap:anywhere}
+.gh a:focus-visible{outline:3px solid var(--mint-ink);outline-offset:3px}
+.skills{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:20px 32px}
+.skills h3{font-size:15px;color:var(--mute);font-family:Inter,sans-serif;font-weight:600;margin-bottom:8px}
+.skills p{margin:0}
+.timeline{display:grid;gap:14px;max-width:820px}
+.tl{display:grid;grid-template-columns:minmax(0,11em) minmax(0,1fr);gap:16px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.tl .d{color:var(--mute);white-space:nowrap}
+.tl p{margin:4px 0 0;color:var(--mute)}
+.contact{background:var(--ink);color:var(--bg)}
+.contact .lead{color:inherit}
+.contact .btns{margin-top:24px}
+.contact .btn{border-color:var(--bg);color:var(--bg)}
+.contact .btn.solid{background:var(--mint);color:#0b0b0b;border-color:var(--mint)}
+.contact .btn:focus-visible{outline-color:var(--mint)}
+footer{padding:20px max(5vw,16px);font-size:13px;color:var(--mute)}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media(max-width:860px){.hero{grid-template-columns:minmax(0,1fr);min-height:0}}
+@media(max-width:600px){.span{grid-template-columns:minmax(0,8.5em) minmax(0,1fr)}.tl{grid-template-columns:minmax(0,1fr);gap:2px}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="id">
+    <div>
+      <div class="role">Software Development Engineer · Bengaluru</div>
+      <h1 style="margin-top:14px">Imran Khan</h1>
+      <p>Founding engineer at an observability startup. I build telemetry pipelines, monitoring products and AI agents that help engineers investigate incidents.</p>
+    </div>
+    <div class="btns">
+      <a class="btn solid" href="https://github.com/binary-amigo" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn" href="https://drive.google.com/file/d/14-F1AbZ6qMOLkk71AReigS6zPDEDKRhY/view?usp=sharing" target="_blank" rel="noopener">Resume</a>
+    </div>
+  </div>
+
+  <nav class="trace" aria-label="Sections">
+    <div class="thead"><span><b>GET /imran-khan</b></span><span>trace · 6 spans</span></div>
+    <a class="span" href="#work"><span class="n">work <small>codifinary</small></span><span class="bar"><i style="left:0;width:100%"></i></span></a>
+    <a class="span" href="#work"><span class="n c">ai-sre-agent <small>mcp</small></span><span class="bar"><i class="m" style="left:4%;width:34%;animation-delay:.1s"></i></span></a>
+    <a class="span" href="#work"><span class="n c">monitoring <small>browser · synthetic</small></span><span class="bar"><i class="m" style="left:30%;width:40%;animation-delay:.2s"></i></span></a>
+    <a class="span" href="#work"><span class="n c">alert-engine <small>promql</small></span><span class="bar"><i class="m" style="left:58%;width:30%;animation-delay:.3s"></i></span></a>
+    <a class="span" href="#projects"><span class="n">projects <small>2</small></span><span class="bar"><i style="left:22%;width:56%;animation-delay:.4s"></i></span></a>
+    <a class="span" href="#skills"><span class="n">skills <small>stack</small></span><span class="bar"><i style="left:46%;width:40%;animation-delay:.5s"></i></span></a>
+    <a class="span" href="#contact"><span class="n">contact</span><span class="bar"><i class="m" style="left:80%;width:20%;animation-delay:.6s"></i></span></a>
+    <div class="tfoot">Each span jumps to a section.</div>
+  </nav>
+</header>
+
+<main>
+<section class="band" id="work"><div class="wrap">
+  <h2>Work at Codifinary Technologies (CodeXray.io)</h2>
+  <p class="lead" style="margin-bottom:28px">SDE since June 2025, after starting as a remote Software Development Intern (Feb–May 2025). I work across the Go backend, React dashboards and the ClickHouse/Kafka data layer of a full observability platform.</p>
+  <div class="grid">
+    <div class="card"><h3>AI SRE assistant + MCP server</h3><p>An LLM-powered assistant and MCP server that let AI agents query live telemetry to investigate incidents.</p><div class="tags"><span>LLMs</span><span>MCP</span><span>Go</span></div></div>
+    <div class="card"><h3>Browser Monitoring</h3><p>npm SDK for real-user monitoring, Go ingestion APIs, React dashboards, ClickHouse query tuning and source-map support.</p><div class="tags"><span>TypeScript</span><span>Go</span><span>React</span><span>ClickHouse</span></div></div>
+    <div class="card"><h3>Synthetic Monitoring</h3><p>A Go scheduler running Puppeteer-based checks, with results stored in PostgreSQL.</p><div class="tags"><span>Go</span><span>Puppeteer</span><span>PostgreSQL</span></div></div>
+    <div class="card"><h3>Alert Engine</h3><p>PromQL-based alert rules with Slack, Microsoft Teams and PagerDuty integrations.</p><div class="tags"><span>Prometheus</span><span>PromQL</span><span>Integrations</span></div></div>
+    <div class="card"><h3>APM &amp; runtime monitoring</h3><p>Distributed tracing plus Java and .NET runtime monitoring through OpenTelemetry.</p><div class="tags"><span>OpenTelemetry</span><span>Java</span><span>.NET</span></div></div>
+    <div class="card"><h3>Mobile App Monitoring (intern)</h3><p>A Kafka + ClickHouse telemetry pipeline for mobile apps, and domain allow-listing for telemetry intake.</p><div class="tags"><span>Kafka</span><span>ClickHouse</span></div></div>
+  </div>
+</div></section>
+
+<section class="band" id="projects"><div class="wrap">
+  <h2>Side projects</h2>
+  <div class="proj">
+    <article class="card">
+      <h3>AcePrep</h3>
+      <p>An AI mock interview platform for job seekers. Google Gemini runs role-based interviews with follow-up questions, alongside a question bank and learning resources.</p>
+      <div class="tags"><span>React</span><span>Node/Express</span><span>MongoDB</span><span>Tailwind</span><span>Gemini</span></div>
+      <div class="gh"><a href="https://github.com/binary-amigo/Aceprep" target="_blank" rel="noopener">github.com/binary-amigo/Aceprep</a></div>
+    </article>
+    <article class="card">
+      <h3>Email Verifier</h3>
+      <p>Checks whether an email address exists without sending mail, using an MX lookup and a live SMTP handshake. Returns six delivery statuses through a web UI, REST API or bulk CSV mode.</p>
+      <div class="tags"><span>Next.js</span><span>TypeScript</span><span>Bash</span><span>Docker</span></div>
+      <div class="gh"><a href="https://github.com/binary-amigo/email-verifier" target="_blank" rel="noopener">github.com/binary-amigo/email-verifier</a></div>
+    </article>
+  </div>
+</div></section>
+
+<section class="band" id="skills"><div class="wrap">
+  <h2>Skills</h2>
+  <div class="skills">
+    <div><h3>Languages</h3><p>Go, TypeScript, JavaScript, Java, SQL</p></div>
+    <div><h3>Frontend</h3><p>React, Vue, TanStack Query, Tailwind</p></div>
+    <div><h3>Backend &amp; data</h3><p>Node/Express, ClickHouse, PostgreSQL, MongoDB, Redis, Kafka</p></div>
+    <div><h3>Observability</h3><p>OpenTelemetry, Prometheus, PromQL</p></div>
+    <div><h3>Infra</h3><p>Docker, Kubernetes, GitHub Actions</p></div>
+    <div><h3>AI</h3><p>LLM integration, MCP servers, AI coding agents</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <h2>Experience &amp; education</h2>
+  <div class="timeline">
+    <div class="tl"><span class="d">Jun 2025 – now</span><div><h3>Software Development Engineer</h3><p>Codifinary Technologies (CodeXray.io), Bengaluru</p></div></div>
+    <div class="tl"><span class="d">Feb – May 2025</span><div><h3>Software Development Intern</h3><p>Codifinary Technologies, remote</p></div></div>
+    <div class="tl"><span class="d">B.Tech</span><div><h3>Computer Science and Engineering</h3><p>Lakshmi Narain College of Technology Excellence, Bhopal · CGPA 8.45</p></div></div>
+  </div>
+</div></section>
+
+<section class="band contact" id="contact"><div class="wrap">
+  <h2>Let's talk</h2>
+  <p class="lead">Open to roles at AI/LLM, devtools and infrastructure startups, in India or remote.</p>
+  <div class="btns">
+    <a class="btn solid" href="https://github.com/binary-amigo" target="_blank" rel="noopener">github.com/binary-amigo</a>
+    <a class="btn" href="https://drive.google.com/file/d/14-F1AbZ6qMOLkk71AReigS6zPDEDKRhY/view?usp=sharing" target="_blank" rel="noopener">View resume</a>
+  </div>
+</div></section>
+</main>
+
+<footer class="wrap">© 2026 Imran Khan</footer>
+</body>
+</html>
